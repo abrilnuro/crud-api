@@ -1,16 +1,40 @@
 package com.skava.crudapi.document;
 
-import org.springframework.web.multipart.MultipartFile;
+import org.bson.types.Binary;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document(collection = "image")
 public class Image {
 
-    MultipartFile file;
+    @Id
+    private String id;
 
-    public MultipartFile getFile() {
-        return file;
+    private String title;
+
+    private Binary image;
+
+    public String getId() {
+        return id;
     }
 
-    public void setFile(MultipartFile file) {
-        this.file = file;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Binary getImage() {
+        return image;
+    }
+
+    public void setImage(Binary image) {
+        this.image = image;
     }
 }
