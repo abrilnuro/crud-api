@@ -1,4 +1,4 @@
-package com.skava.crudapi.SupplierApplication;
+package com.skava.crudapi.application;
 
 import com.skava.crudapi.document.Supplier;
 import com.skava.crudapi.repository.SupplierRepository;
