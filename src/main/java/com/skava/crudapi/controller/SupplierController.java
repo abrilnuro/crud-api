@@ -6,13 +6,10 @@ import com.skava.crudapi.document.Image;
 import com.skava.crudapi.document.Supplier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Base64;
 import java.util.List;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*", allowCredentials = "false",
@@ -52,20 +49,13 @@ public class SupplierController {
         this.supplierApplication.deleteById(id);
     }
 
-    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String  uploadFile(@RequestParam MultipartFile file) throws IOException {
-        return this.imageApplication.addPhoto(file.getName(), file);
+    @PostMapping(value = "/upload-image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String  uploadImage(@RequestParam MultipartFile file) throws IOException {
+        return this.imageApplication.saveImage(file);
     }
 
-    @GetMapping("/photos/{id}")
-    public Image getPhoto(@PathVariable String id) {
-        Image image = imageApplication.getPhoto(id);
-
-        /*
-        model.addAttribute("title", image.getTitle());
-        model.addAttribute("image",
-                Base64.getEncoder().encodeToString(image.getImage().getData()));
-       */
-        return image;
+    @GetMapping("/image/{id}")
+    public Image getImage(@PathVariable String id) {
+        return imageApplication.getPhoto(id);
     }
 }

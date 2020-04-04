@@ -16,12 +16,11 @@ public class ImageApplication {
     @Autowired
     ImageRepository imageRepository;
 
-    public String addPhoto(String title, MultipartFile file) throws IOException {
+    public String saveImage(MultipartFile file) throws IOException {
         Image image = new Image();
-        image.setTitle(title);
+        image.setTitle(file.getName());
+        image.setImage(new Binary(BsonBinarySubType.BINARY, file.getBytes()));
 
-        image.setImage(
-                new Binary(BsonBinarySubType.BINARY, file.getBytes()));
         image = imageRepository.insert(image);
 
         return image.getId();
