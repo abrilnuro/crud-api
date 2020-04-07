@@ -2,8 +2,8 @@ package com.skava.crudapi.controller;
 
 import com.skava.crudapi.application.ImageApplication;
 import com.skava.crudapi.application.SupplierApplication;
-import com.skava.crudapi.document.Image;
-import com.skava.crudapi.document.Supplier;
+import com.skava.crudapi.document.SupplierDocument;
+import com.skava.crudapi.dto.SupplierDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -25,23 +25,23 @@ public class SupplierController {
     ImageApplication imageApplication;
 
     @PostMapping
-    public Supplier save(@RequestBody Supplier supplier) {
-        return this.supplierApplication.save(supplier);
+    public SupplierDto save(@RequestBody SupplierDto supplierDto) throws IOException {
+        return this.supplierApplication.save(supplierDto);
     }
 
     @GetMapping
-    public List<Supplier> findAll() {
+    public List<SupplierDocument> findAll() {
         return this.supplierApplication.findAll();
     }
 
     @GetMapping("{id}")
-    public Supplier findById(@PathVariable  String id) {
+    public SupplierDocument findById(@PathVariable  String id) {
         return this.supplierApplication.findById(id);
     }
 
     @PatchMapping
-    public Supplier updateById(@RequestBody Supplier supplier) {
-        return this.supplierApplication.updateById(supplier);
+    public SupplierDocument updateById(@RequestBody SupplierDocument supplierDocument) {
+        return this.supplierApplication.updateById(supplierDocument);
     }
 
     @DeleteMapping("{id}")
@@ -51,11 +51,11 @@ public class SupplierController {
 
     @PostMapping(value = "/upload-image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String  uploadImage(@RequestParam MultipartFile file) throws IOException {
-        return this.imageApplication.saveImage(file);
+        return this.imageApplication.save(file);
     }
 
-    @GetMapping("/image/{id}")
-    public Image getImage(@PathVariable String id) {
-        return imageApplication.getPhoto(id);
-    }
+    /*@GetMapping("/image/{id}")
+    public ImageDocument getImage(@PathVariable String id) {
+        return imageApplication.findById(id);
+    }*/
 }

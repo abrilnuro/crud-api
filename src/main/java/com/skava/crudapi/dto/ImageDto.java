@@ -1,18 +1,14 @@
-package com.skava.crudapi.document;
+package com.skava.crudapi.dto;
 
-import org.bson.types.Binary;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+public class ImageDto {
 
-@Document(collection = "image")
-public class Image {
-
-    @Id
     private String id;
+
+    private String idSupplier;
 
     private String title;
 
-    private Binary image;
+    private String image;
 
     public String getId() {
         return id;
@@ -20,6 +16,14 @@ public class Image {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getIdSupplier() {
+        return idSupplier;
+    }
+
+    public void setIdSupplier(String idSupplier) {
+        this.idSupplier = idSupplier;
     }
 
     public String getTitle() {
@@ -30,11 +34,12 @@ public class Image {
         this.title = title;
     }
 
-    public Binary getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(Binary image) {
+    public void setImage(String image) {
         this.image = image;
     }
 }
+

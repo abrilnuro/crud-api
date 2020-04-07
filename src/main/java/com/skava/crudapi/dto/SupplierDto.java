@@ -1,12 +1,7 @@
-package com.skava.crudapi.document;
+package com.skava.crudapi.dto;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+public class SupplierDto {
 
-@Document(collection = "supplier")
-public class Supplier {
-
-    @Id
     private String id;
 
     private String name;
@@ -14,6 +9,8 @@ public class Supplier {
     private String description;
 
     private String phoneNumber;
+
+    private ImageDto image;
 
     public String getId() {
         return id;
@@ -45,5 +42,13 @@ public class Supplier {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public ImageDto getImage() {
+        return image;
+    }
+
+    public void setImage(ImageDto image) {
+        this.image = image;
     }
 }
