@@ -4,6 +4,7 @@ import com.skava.crudapi.document.SupplierDocument;
 import com.skava.crudapi.dto.ImageDto;
 import com.skava.crudapi.dto.SupplierDto;
 import com.skava.crudapi.repository.SupplierRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -23,9 +24,7 @@ public class SupplierApplication {
 
     public SupplierDto save(SupplierDto supplierDto) throws IOException {
         SupplierDocument supplierDocument = new SupplierDocument();
-        supplierDocument.setName(supplierDto.getName());
-        supplierDocument.setDescription(supplierDto.getDescription());
-        supplierDocument.setPhoneNumber(supplierDto.getPhoneNumber());
+        BeanUtils.copyProperties(supplierDto, supplierDocument, "image");
 
         Optional<SupplierDocument> supplierSaved = Optional.ofNullable(this.supplierRepository.save(supplierDocument));
         Assert.isTrue(supplierSaved.isPresent(), "A problem occurred while saving supplier");
@@ -33,10 +32,11 @@ public class SupplierApplication {
         String supplierId = supplierSaved.get().getId();
         supplierDto.setId(supplierId);
 
-        ImageDto imageDto = this.imageApplication.saveAsBase64(supplierDto.getImage());
-
+        ImageDto imageDto = supplierDto.getImage();
         imageDto.setIdSupplier(supplierId);
-        supplierDto.setImage(imageDto);
+        ImageDto imageSaved = this.imageApplication.saveAsBase64(imageDto);
+
+        supplierDto.setImage(imageSaved);
 
         return supplierDto;
     }
@@ -45,10 +45,18 @@ public class SupplierApplication {
         return this.supplierRepository.findAll();
     }
 
-    public SupplierDocument findById(String id) {
-        Optional<SupplierDocument> optional = this.supplierRepository.findById(id);
-        Assert.isTrue(optional.isPresent(), "Can't find supplier with id: " + id);
-        return optional.get();
+    public SupplierDto findById(String id) {
+        Optional<SupplierDocument> supplierFinded = this.supplierRepository.findById(id);
+        Assert.isTrue(supplierFinded.isPresent(), "An error occurred while searching " +
+                "for the provider with id: " + id);
+
+        ImageDto imageDto = this.imageApplication.findBySupplierId(id);
+
+        SupplierDto supplierDto = new SupplierDto();
+        BeanUtils.copyProperties(supplierFinded.get(), supplierDto);
+        supplierDto.setImage(imageDto);
+
+        return supplierDto;
     }
 
     public SupplierDocument updateById(SupplierDocument supplierDocument) {

@@ -3,6 +3,7 @@ package com.skava.crudapi.controller;
 import com.skava.crudapi.application.ImageApplication;
 import com.skava.crudapi.application.SupplierApplication;
 import com.skava.crudapi.document.SupplierDocument;
+import com.skava.crudapi.dto.ImageDto;
 import com.skava.crudapi.dto.SupplierDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -35,7 +36,7 @@ public class SupplierController {
     }
 
     @GetMapping("{id}")
-    public SupplierDocument findById(@PathVariable  String id) {
+    public SupplierDto findById(@PathVariable String id) {
         return this.supplierApplication.findById(id);
     }
 
@@ -54,8 +55,8 @@ public class SupplierController {
         return this.imageApplication.save(file);
     }
 
-    /*@GetMapping("/image/{id}")
-    public ImageDocument getImage(@PathVariable String id) {
+    @GetMapping("/image/{id}")
+    public ImageDto getImage(@PathVariable String id) {
         return imageApplication.findById(id);
-    }*/
+    }
 }
