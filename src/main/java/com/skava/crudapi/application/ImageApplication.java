@@ -62,4 +62,17 @@ public class ImageApplication {
 
         return imageDto;
     }
+
+    public ImageDto updateById(ImageDto imageDto) {
+        boolean exists = this.imageRepository.existsById(imageDto.getId());
+        Assert.isTrue(exists, "Doesn't exist image with id: " + imageDto.getId());
+
+        ImageDocument imageDocument = new ImageDocument();
+        BeanUtils.copyProperties(imageDto, imageDocument);
+
+        Optional<ImageDocument> imageSaved = Optional.ofNullable(this.imageRepository.save(imageDocument));
+        Assert.isTrue(imageSaved.isPresent(), "An error occurred while saving image");
+
+        return imageDto;
+    }
 }

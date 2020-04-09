@@ -59,10 +59,19 @@ public class SupplierApplication {
         return supplierDto;
     }
 
-    public SupplierDocument updateById(SupplierDocument supplierDocument) {
-        boolean exists = this.supplierRepository.existsById(supplierDocument.getId());
-        Assert.isTrue(exists, "Doesn´t exist supplierDocument with id: " + supplierDocument.getId());
-        return this.supplierRepository.save(supplierDocument);
+    public SupplierDto updateById(SupplierDto supplierDto) {
+        boolean exists = this.supplierRepository.existsById(supplierDto.getId());
+        Assert.isTrue(exists, "Doesn´t exist supplier with id: " + supplierDto.getId());
+
+        SupplierDocument supplierDocument = new SupplierDocument();
+        BeanUtils.copyProperties(supplierDto, supplierDocument);
+
+        Optional<SupplierDocument> supplierSaved = Optional.ofNullable(this.supplierRepository.save(supplierDocument));
+        Assert.isTrue(supplierSaved.isPresent(), "An error ocurred while updating supplier");
+
+        this.imageApplication.updateById(supplierDto.getImage());
+
+        return supplierDto;
     }
 
     public void deleteById(String id) {

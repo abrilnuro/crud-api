@@ -41,8 +41,8 @@ public class SupplierController {
     }
 
     @PatchMapping
-    public SupplierDocument updateById(@RequestBody SupplierDocument supplierDocument) {
-        return this.supplierApplication.updateById(supplierDocument);
+    public SupplierDto updateById(@RequestBody SupplierDto supplierDto) {
+        return this.supplierApplication.updateById(supplierDto);
     }
 
     @DeleteMapping("{id}")
